@@ -11,29 +11,39 @@ namespace WeatherForecast.Controllers
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
     {
-        private static readonly string[] Summaries = new[]
-        {
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-        };
+        private readonly ValuesHolder holder;
 
-        private readonly ILogger<WeatherForecastController> _logger;
-
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
+        public WeatherForecastController(ValuesHolder holder)
         {
-            _logger = logger;
+            this.holder = holder;
+        }
+
+        [HttpPost("create")]
+        public IActionResult Create([FromQuery] DateTime date, [FromQuery] int temperature)
+        {
+            holder.Add(date, temperature);
+            return Ok(holder.requestStatus);
         }
 
         [HttpGet]
-        public IEnumerable<WeatherForecast> Get()
+        [HttpGet("read")]
+        public IActionResult Read()
         {
-            var rng = new Random();
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-            {
-                Date = DateTime.Now.AddDays(index),
-                TemperatureC = rng.Next(-20, 55),
-                Summary = Summaries[rng.Next(Summaries.Length)]
-            })
-            .ToArray();
+            return Ok(holder.Values);
+        }
+
+        [HttpPost("update")]
+        public IActionResult Delete([FromQuery] DateTime date, [FromQuery] int temperature)
+        {
+            holder.Update(date, temperature);
+            return Ok(holder.requestStatus);
+        }
+
+        [HttpPost("delete")]
+        public IActionResult Delete([FromQuery] DateTime date)
+        {
+            holder.Delete(date);
+            return Ok(holder.requestStatus);
         }
     }
 }
