@@ -45,5 +45,18 @@ namespace WeatherForecast.Controllers
             holder.Delete(date);
             return Ok(holder.requestStatus);
         }
+
+        [HttpPost("readRange")]
+        public IActionResult ReadRange([FromQuery] DateTime start, [FromQuery] DateTime end)
+        {
+            return Ok(holder.ReadRange(start, end));
+        }
+
+        [HttpPost("deleteRange")]
+        public IActionResult DeleteRange([FromQuery] DateTime start, [FromQuery] DateTime end)
+        {
+            holder.DeleteRange(start, end);
+            return Ok(holder.requestStatus);
+        }
     }
 }
