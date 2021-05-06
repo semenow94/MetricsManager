@@ -12,7 +12,7 @@ namespace MetricsAgent.Controllers
     public class RamMetricsController : ControllerBase
     {
         [HttpGet("available/{available}/")]
-        public IActionResult GetRamtMetrics([FromRoute] int available)
+        public IActionResult GetRamMetrics([FromRoute] int available)
         {
             return Ok();
         }
