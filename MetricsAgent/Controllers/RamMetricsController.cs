@@ -11,5 +11,10 @@ namespace MetricsAgent.Controllers
     [ApiController]
     public class RamMetricsController : ControllerBase
     {
+        [HttpGet("available/{available}/")]
+        public IActionResult GetRamtMetrics([FromRoute] int available)
+        {
+            return Ok();
+        }
     }
 }
